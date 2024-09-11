@@ -1,13 +1,12 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import RegisterSerializer
+from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
-# Create your views here.
+
 class UserRegistration(APIView):
-
     def post (self, request):
         register_data = RegisterSerializer(data=request.data)
         if register_data.is_valid():
@@ -20,6 +19,19 @@ class UserRegistration(APIView):
 
 class UserLogin(APIView):
     def post(self, request):
+        login_data = LoginSerializer(data=request.data)
+        if login_data.is_valid():
+            username = login_data.validated_data['username']
+            password = login_data.validated_data['password']
 
-        return Response({})
+            user = authenticate(username=username ,password=password)
+
+            if user is not None:
+                token, created = Token.objects.get_or_create(user=user)
+                return Response({"token":token.key, "username":user.username}, status = status.HTTP_200_OK)
+
+            else:
+                return Response({"Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
+            
+        return Response(login_data.errors, status=status.HTTP_400_BAD_REQUEST)
 

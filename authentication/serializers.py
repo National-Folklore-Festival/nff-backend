@@ -18,3 +18,7 @@ class RegisterSerializer(serializers.Serializer):
         user.set_password(validated_data['password'])
         user.save()
         return user
+
+class LoginSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)

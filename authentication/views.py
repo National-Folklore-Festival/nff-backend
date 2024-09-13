@@ -31,7 +31,7 @@ class UserLogin(APIView):
                 return Response({"token":token.key, "username":user.username}, status = status.HTTP_200_OK)
 
             else:
-                return Response({"Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
+                return Response({"message":"Invalid username or password"}, status=status.HTTP_401_UNAUTHORIZED)
             
         return Response(login_data.errors, status=status.HTTP_400_BAD_REQUEST)
 

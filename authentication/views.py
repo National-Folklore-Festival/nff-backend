@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from .serializers import RegisterSerializer, LoginSerializer
 from rest_framework import status
 from rest_framework.authtoken.models import Token
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login
 
 
 class UserRegistration(APIView):
@@ -11,7 +11,7 @@ class UserRegistration(APIView):
         register_data = RegisterSerializer(data=request.data)
         if register_data.is_valid():
             new_user = register_data.save()
-
+            #login(request, new_user) 
             token = Token.objects.create(user=new_user) 
 
             return Response({"token": token.key, "user": register_data.data}, status=status.HTTP_201_CREATED)
@@ -28,6 +28,7 @@ class UserLogin(APIView):
 
             if user is not None:
                 token, created = Token.objects.get_or_create(user=user)
+                login(request, user)
                 return Response({"token":token.key, "username":user.username}, status = status.HTTP_200_OK)
 
             else:

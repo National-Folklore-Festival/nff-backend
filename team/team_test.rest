@@ -1,0 +1,11 @@
+POST http://127.0.0.1:8000/team/
+Content-Type: application/json
+
+{   "team_name": "bibble", 
+    "institution": "bibbleschool",
+    "location":"fairytopia",
+    "phone_number":"1234",
+    "coach":"azura",
+    "main_category":"dance",
+    "sub_category":"danceA"
+}

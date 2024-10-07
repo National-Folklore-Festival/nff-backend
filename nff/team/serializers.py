@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Team, Member
+from midtrans.serializers import TransactionSerializers
 
 
 class MemberSerializer(serializers.ModelSerializer):
@@ -14,9 +15,10 @@ class MemberUpdateSerializer(serializers.ModelSerializer):
         fields = ['position', 'full_name', 'phone_number']
 
 class TeamSerializer(serializers.ModelSerializer):
+    transaction = TransactionSerializers(read_only=True)
     class Meta:
         model = Team
-        fields = ['id', 'team_name', 'institution', 'location', 'phone_number', 'coach', 'main_category', 'sub_category']
+        fields = ['id', 'team_name', 'institution', 'location', 'phone_number', 'coach', 'main_category', 'sub_category', 'is_paid', 'transaction']
     
 class TeamUpdateSerializer(serializers.ModelSerializer):
     class Meta:

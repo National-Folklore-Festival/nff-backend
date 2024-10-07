@@ -38,6 +38,8 @@ CORS_ALLOW_METHODS = (
     'PATCH',
 )
 
+CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*']
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,11 +52,14 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'authentication',
-    'team'
+    'team',
+    'midtrans',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -89,9 +94,19 @@ WSGI_APPLICATION = 'nff.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql', 
+        'NAME': 'postgres',                
+        'USER': 'postgres.rrktjfcnlfimytkdtgah',                          
+        'PASSWORD': 'nffsupabase2024',       
+        'HOST': 'aws-0-ap-southeast-1.pooler.supabase.com',      
+        'PORT': '6543',    
     }
+}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
 
 

@@ -12,7 +12,7 @@ class Team(models.Model):
     main_category = models.CharField(max_length=30) 
     sub_category = models.CharField(max_length=30)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-
+    is_paid = models.BooleanField(default=False)
     def __str__(self):
         return self.team_name
 

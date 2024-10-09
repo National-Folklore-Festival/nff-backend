@@ -137,7 +137,8 @@ class PaymentCallbackAPI(APIView):
             elif callback_data['transaction_status'] in ['cancel', 'deny', 'expire']:
                 # Handle failed transaction statuses
                 transaction.payment_status = 'Expired'
-                transaction.save()
+                transaction.team.delete()
+                #transaction.save()
             elif callback_data['transaction_status'] == 'pending':
                 # Handle pending payments, you might not want to update anything here
                 pass
